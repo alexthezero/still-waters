@@ -1,0 +1,17 @@
+{
+  "name": "Still Waters",
+  "short_name": "Still Waters",
+  "description": "Prayer when you don't have the words.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f1e7",
+  "theme_color": "#f6f1e7",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
