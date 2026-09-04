@@ -36,9 +36,14 @@ const SCRIPTURES = [
     thought: 'Faith can be practiced inside ordinary family life, one choice and one day at a time.'
   },
   {
-    keys: ['money', 'financial', 'finances', 'bill', 'bills', 'job', 'work'],
+    keys: ['money', 'financial', 'finances', 'bill', 'bills'],
     reference: 'Matthew 6:31–34',
     thought: 'Today has enough weight of its own. Ask for daily provision and the grace to take the next wise step.'
+  },
+  {
+    keys: ['work', 'career', 'job', 'workplace', 'boss', 'coworker', 'coworkers', 'employment'],
+    reference: 'Colossians 3:23–24',
+    thought: 'Your work can be approached with faithfulness, integrity, and purpose even when the environment around you feels difficult.'
   },
   {
     keys: ['direction', 'decision', 'decide', 'choice', 'guidance', 'uncertain', 'confused'],
