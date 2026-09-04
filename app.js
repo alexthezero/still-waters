@@ -24,6 +24,7 @@ let currentPrayer = null;
 let toastTimer;
 
 const JOURNAL_KEY = 'still-waters-prayer-journal-v1';
+const PRAYER_API_URL = window.STILL_WATERS_API_URL || './api/pray';
 
 const scriptures = [
   {
@@ -32,7 +33,7 @@ const scriptures = [
     thought: 'You are not asked to face fear alone. God’s presence is steadier than the uncertainty in front of you.'
   },
   {
-    keys: ['marriage', 'husband', 'wife', 'relationship', 'together'],
+    keys: ['marriage', 'husband', 'wife', 'partner', 'relationship', 'together'],
     reference: 'Colossians 3:13–14',
     thought: 'Grace, forgiveness, patience, and love can hold a relationship together even in a difficult season.'
   },
@@ -42,9 +43,14 @@ const scriptures = [
     thought: 'Faith can be practiced inside ordinary family life, one choice and one day at a time.'
   },
   {
-    keys: ['money', 'financial', 'finances', 'bill', 'bills', 'job', 'work'],
+    keys: ['money', 'financial', 'finances', 'bill', 'bills'],
     reference: 'Matthew 6:31–34',
     thought: 'Today has enough weight of its own. Ask for daily provision and the grace to take the next wise step.'
+  },
+  {
+    keys: ['work', 'career', 'job', 'workplace', 'boss', 'coworker', 'coworkers', 'employment'],
+    reference: 'Colossians 3:23–24',
+    thought: 'Your work can be approached with faithfulness, integrity, and purpose even when the environment around you feels difficult.'
   },
   {
     keys: ['direction', 'decision', 'decide', 'choice', 'guidance', 'uncertain', 'confused'],
@@ -78,6 +84,81 @@ const scriptures = [
   }
 ];
 
+const topicPrayers = {
+  Marriage: {
+    focus: 'her marriage and the person she has chosen to share her life with',
+    paragraphs: [
+      'Where love feels difficult to read, give her patience before fear writes the story for her. Help her distinguish between what she knows, what she fears, and what still needs an honest conversation.',
+      'Protect the tenderness between them. Where distance has grown, create room for truth without cruelty, listening without defensiveness, and affection that is expressed in ways each of them can actually receive.',
+      'If there are wounds beneath the surface, bring them into the light with gentleness. Give both of them humility to own what is theirs, courage to repair what can be repaired, and wisdom about healthy boundaries where they are needed.'
+    ]
+  },
+  Family: {
+    focus: 'her family and the people whose lives are woven closely into hers',
+    paragraphs: [
+      'Give her wisdom for the responsibilities she carries at home. Help her love deeply without believing she must control every outcome.',
+      'Bring peace into the places where family life feels strained, noisy, or uncertain. Make room for patience, honesty, forgiveness, and the kind of grace that survives imperfect days.',
+      'Protect the people she loves and guide the decisions that affect them. Help her recognize what needs action, what needs conversation, and what needs to be surrendered to You.'
+    ]
+  },
+  Fear: {
+    focus: 'the fear that has been taking up too much room in her mind',
+    paragraphs: [
+      'Slow the thoughts that keep racing ahead of reality. Give her courage to face what is true without being ruled by everything that could go wrong.',
+      'When uncertainty feels louder than Your presence, steady her. Remind her that courage does not require the absence of fear; it can look like taking the next faithful step while still feeling afraid.',
+      'Give her discernment about what deserves attention and what is only anxiety asking for another hour of her peace.'
+    ]
+  },
+  Finances: {
+    focus: 'the financial pressure and responsibility she is carrying',
+    paragraphs: [
+      'Provide for the needs in front of her and give her wisdom with every practical decision. Replace panic with clarity and shame with steady, responsible action.',
+      'Help her see the difference between an urgent problem and a frightening possibility. Give her patience to make sound choices rather than choices driven by fear.',
+      'Open appropriate doors for provision, work, support, and opportunity. Teach her to trust You while still being faithful with what is in her hands today.'
+    ]
+  },
+  Work: {
+    focus: 'her work, responsibilities, and the people she encounters there',
+    paragraphs: [
+      'Give her clarity when expectations are confusing and steadiness when the workday becomes heavy. Help her do good work without tying her worth to performance or approval.',
+      'Give her wisdom in difficult conversations, patience with coworkers, and courage when she needs to speak honestly or advocate for herself.',
+      'Guide her career decisions. If a door should be pursued, give her confidence to move toward it; if patience is needed, give her strength to remain faithful without becoming discouraged.'
+    ]
+  },
+  Direction: {
+    focus: 'the decisions and unanswered questions in front of her',
+    paragraphs: [
+      'Quiet the pressure to solve everything at once. Give her enough clarity for the next step rather than demanding that she see the entire road.',
+      'Help her recognize the difference between wisdom, fear, impulse, and outside pressure. Surround her with counsel that is trustworthy and grounded.',
+      'Close paths that would pull her away from what is healthy and faithful, and give her courage to walk through the right doors when they become clear.'
+    ]
+  },
+  Forgiveness: {
+    focus: 'the hurt she is carrying and the difficult work of forgiveness',
+    paragraphs: [
+      'Do not let forgiveness become another way of pretending the wound did not matter. Give her room to tell the truth about what hurt while refusing to let bitterness shape who she becomes.',
+      'Show her what forgiveness can look like with wisdom and healthy boundaries. Give her patience if healing is slower than she wishes it were.',
+      'Where reconciliation is safe and appropriate, soften hearts and make honest repair possible. Where distance is necessary, give her peace without hatred.'
+    ]
+  },
+  Strength: {
+    focus: 'the places where she feels tired, stretched thin, or unsure how much more she can carry',
+    paragraphs: [
+      'Give her strength that is not built on pretending she is fine. Help her receive rest without guilt and support without feeling that she has failed.',
+      'Show her what truly needs her energy today and what can wait. Protect her from carrying responsibilities that were never hers to hold alone.',
+      'Renew her physically, emotionally, and spiritually. Let small signs of grace become enough encouragement to keep moving one day at a time.'
+    ]
+  },
+  Gratitude: {
+    focus: 'the good things she wants to notice and thank You for',
+    paragraphs: [
+      'Keep gratitude from becoming shallow or forced. Let it help her notice goodness even while some parts of life remain unresolved.',
+      'Thank You for the people, provisions, ordinary moments, and quiet mercies that are easy to overlook. Give her eyes to recognize them.',
+      'Let gratitude deepen her trust and make her more generous with patience, affection, encouragement, and joy.'
+    ]
+  }
+};
+
 function showView(name) {
   Object.entries(views).forEach(([key, view]) => {
     view.hidden = key !== name;
@@ -106,7 +187,7 @@ function showToast(message) {
   clearTimeout(toastTimer);
   toast.textContent = message;
   toast.classList.add('show');
-  toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
 }
 
 function selectScripture(text, topic = '') {
@@ -137,41 +218,92 @@ function formatPrayer(text) {
     .join('');
 }
 
-function summarizeConcern(text) {
-  const cleaned = text.replace(/\s+/g, ' ').trim();
-  if (!cleaned) return '';
-  const firstSentence = cleaned.match(/^.*?[.!?](?:\s|$)/)?.[0] || cleaned;
-  return firstSentence.slice(0, 220).replace(/[.!?]+$/, '');
+function pick(list) {
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+function concernInsight(concern, topic) {
+  const text = concern.toLowerCase();
+
+  if (!text.trim()) {
+    return 'You know what she has not been able to put into words. Meet her beneath the noise, where the questions, hopes, disappointments, and needs are known fully by You.';
+  }
+
+  if (/does(n['’]?t| not).*love|no longer.*love|stopped.*lov|falling out of love|doesn['’]?t care|not care anymore/.test(text)) {
+    return 'You see how painful it is when love feels uncertain. You know the fear underneath that uncertainty: the fear of being unwanted, of losing closeness, and of not knowing whether the distance she feels is temporary or something deeper.';
+  }
+
+  if (/leave me|leaving me|lose (him|her|them)|break.?up|divorce|separat/.test(text)) {
+    return 'You see the fear of losing a relationship that matters deeply to her. Hold her steady while she faces what is real, without forcing her heart to live inside the worst possible outcome.';
+  }
+
+  if (/cheat|affair|betray|lied|lying|trust/.test(text)) {
+    return 'You see the wound that appears when trust becomes fragile. You know the questions that follow hurt, the instinct to protect herself, and the longing to know what is true.';
+  }
+
+  if (/fight|argu|conflict|not talking|won['’]?t talk|communication|distant|distance|cold/.test(text)) {
+    return 'You see the tension beneath the conversations that are not going well and the things that may still be left unsaid. Give her wisdom to pursue clarity without turning every difficult moment into a verdict on the whole relationship.';
+  }
+
+  if (/alone|lonely|isolated|nobody|no one/.test(text)) {
+    return 'You see the loneliness underneath what she shared and the ache of feeling unseen or unsupported. Remind her that needing closeness is not weakness, and guide her toward people and conversations where she can be known honestly.';
+  }
+
+  if (/overwhelm|too much|exhaust|burn.?out|tired|drained/.test(text)) {
+    return 'You see how much she has been carrying and how difficult it becomes to think clearly when everything feels urgent at once. Give her permission to be human, to rest, and to receive help.';
+  }
+
+  if (/job|work|boss|cowork|career|workplace|fired|layoff|promotion/.test(text)) {
+    return 'You see the pressure connected to her work and how easily uncertainty there can follow her home. Guard her confidence, help her see situations clearly, and keep one difficult day or one person’s opinion from defining her worth.';
+  }
+
+  if (/money|financial|bill|debt|rent|mortgage|afford|paycheck/.test(text)) {
+    return 'You see the pressure that comes when money feels too tight or the future feels financially uncertain. Give her a clear mind for practical decisions and protect her from carrying tomorrow’s fear as though it has already happened.';
+  }
+
+  if (/anxious|anxiety|worried|worry|afraid|fear|scared|panic/.test(text)) {
+    return 'You see the fear behind the words she shared and the way uncertainty can make every possibility feel immediate. Slow her thoughts enough to separate what is true today from what fear is predicting about tomorrow.';
+  }
+
+  if (/decision|choose|choice|direction|what should|don['’]?t know what to do|confused/.test(text)) {
+    return 'You see how difficult it is to choose when several paths carry consequences. Give her freedom from the pressure to make a perfect decision and wisdom to recognize the next faithful one.';
+  }
+
+  if (topic === 'Marriage') {
+    return 'You know the part of her marriage that feels unsettled right now. You see both the love she wants to protect and the questions she may be afraid to ask out loud.';
+  }
+
+  if (topic === 'Work') {
+    return 'You know what has made work feel heavier lately. You see the pressures, personalities, expectations, and decisions that she carries long after the workday ends.';
+  }
+
+  return 'You understand what she meant beneath the words she typed. You know the part that hurts, the part that hopes, and the part that is still trying to understand what to do next.';
+}
+
+function genericTopic(concern, topic) {
+  const selected = topicPrayers[topic];
+  if (selected) return selected;
+  return {
+    focus: topic ? `what she is carrying in the area of ${topic.toLowerCase()}` : 'everything she is carrying today',
+    paragraphs: [
+      'Give her wisdom without panic, courage without hardness, and peace that does not require every question to be answered tonight.',
+      'Help her recognize what is hers to act on and what she needs to release into Your hands. Give her patience with the things that cannot be rushed.',
+      'Surround her with people who are honest, wise, and safe. Keep drawing her closer to You through trust rather than fear or pressure.'
+    ]
+  };
 }
 
 function localPrayer(concern, topic) {
-  const brief = summarizeConcern(concern);
-  const topicPhrase = topic ? `especially in the area of ${topic.toLowerCase()}` : 'in everything she is carrying today';
-  const detail = brief
-    ? `You know the concern she brought here today — ${brief.charAt(0).toLowerCase()}${brief.slice(1)}. You understand the parts she can explain and the parts she cannot yet put into words.`
-    : 'You know what is weighing on her even when she cannot find the words for it. You see every question, every hope, and every quiet burden.';
+  const guide = genericTopic(concern, topic);
+  const insight = concernInsight(concern, topic);
+  const shuffled = [...guide.paragraphs].sort(() => Math.random() - 0.5);
+  const closing = pick([
+    'When her mind tries to solve the entire future tonight, bring her back to the grace available for this moment. Give her enough light for the next step and enough peace to leave the rest with You.',
+    'Do not let uncertainty convince her that she is abandoned. Give her strength for what needs courage, softness for what needs grace, and rest from what she cannot control.',
+    'Help her move forward without rushing past what her heart needs to process. Give her wisdom for tomorrow, but for this moment, let her simply be held in Your presence.'
+  ]);
 
-  const middleOptions = [
-    'Give her wisdom without panic, courage without hardness, and peace that does not depend on having every answer tonight.',
-    'Help her separate what she can faithfully do from what she needs to place back into Your hands. Quiet the noise around her enough to recognize the next wise step.',
-    'Meet her in the places that feel uncertain. Give her patience for what cannot be rushed, clarity for what needs action, and grace for herself while she is still figuring things out.'
-  ];
-
-  const relationshipOptions = [
-    'Protect the people she loves. Bring gentleness into strained conversations, honesty where things have gone unspoken, and humility wherever healing needs to begin.',
-    'Strengthen her relationships and guard her heart from fear, resentment, and isolation. Give her trustworthy people who can walk beside her with wisdom and love.',
-    'Where relationships feel tender, make room for truth and grace to exist together. Help her know when to speak, when to listen, and when simply to rest.'
-  ];
-
-  const endingOptions = [
-    'Remind her that she does not have to solve tomorrow before she is allowed to rest tonight. Hold what she cannot carry, and guide her one faithful step at a time.',
-    'Let her leave this moment a little less burdened than she entered it. Keep drawing her closer to You, not through fear or pressure, but through trust.',
-    'Give her enough light for the next step, enough strength for today, and enough peace to release what remains unfinished.'
-  ];
-
-  const pick = list => list[Math.floor(Math.random() * list.length)];
-
-  return `Heavenly Father,\n\nI lift her to You ${topicPhrase}. ${detail}\n\n${pick(middleOptions)}\n\n${pick(relationshipOptions)}\n\n${pick(endingOptions)}\n\nThank You for hearing her before the words are polished and for meeting her exactly where she is.\n\nIn Jesus’ name, Amen.`;
+  return `Heavenly Father,\n\nI bring her before You in ${guide.focus}. ${insight}\n\n${shuffled[0]}\n\n${shuffled[1]}\n\n${shuffled[2]}\n\n${closing}\n\nRemind her that she does not need perfectly formed words for You to hear her. Meet her with truth, mercy, wisdom, and the kind of peace that makes room to breathe again.\n\nIn Jesus’ name, Amen.`;
 }
 
 function containsImmediateRisk(text) {
@@ -188,7 +320,7 @@ function containsImmediateRisk(text) {
 
 async function requestPrayer(concern, topic) {
   try {
-    const response = await fetch('./api/pray', {
+    const response = await fetch(PRAYER_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ concern, topic })
@@ -236,6 +368,7 @@ async function beginPrayer(forceBlank = false) {
     topic: selectedTopic || 'Prayer',
     concern,
     prayer: result.prayer,
+    source: result.source,
     scripture: {
       ...result.scripture,
       url: result.scripture?.url || `https://www.biblegateway.com/passage/?search=${encodeURIComponent(result.scripture?.reference || 'Psalm 46:10')}`
