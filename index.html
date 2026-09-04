@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f6f1e7" />
+  <meta name="description" content="Still Waters — a quiet place for prayer when you do not have the words." />
+  <title>Still Waters</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Still Waters home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 44 44"><path d="M8 24c5-7 10-7 15 0 5-7 10-7 15 0"/><path d="M11 31c4-5 8-5 12 0 4-5 8-5 12 0"/><path d="M22 7c4 5 6 9 6 12a6 6 0 1 1-12 0c0-3 2-7 6-12Z"/></svg>
+      </span>
+      <span>Still Waters</span>
+    </a>
+    <button class="ghost-button" id="journalButton" type="button" aria-label="Open prayer journal">Journal <span id="journalCount" class="count-badge">0</span></button>
+  </header>
+
+  <main>
+    <section id="homeView" class="view home-view">
+      <div class="hero-copy">
+        <p class="eyebrow">A quiet place to meet with God</p>
+        <h1>Come as you are.</h1>
+        <p class="hero-subtitle">You do not need the right words. Bring what is on your heart, and we will turn it into prayer.</p>
+      </div>
+
+      <div class="prayer-card">
+        <div class="card-heading">
+          <span class="soft-icon" aria-hidden="true">✦</span>
+          <div>
+            <p class="card-kicker">Right now</p>
+            <h2>What would you like prayer for?</h2>
+          </div>
+        </div>
+
+        <div class="topics" id="topics" aria-label="Prayer topics">
+          <button class="topic-chip" type="button" data-topic="Marriage">Marriage</button>
+          <button class="topic-chip" type="button" data-topic="Family">Family</button>
+          <button class="topic-chip" type="button" data-topic="Fear">Fear</button>
+          <button class="topic-chip" type="button" data-topic="Finances">Finances</button>
+          <button class="topic-chip" type="button" data-topic="Direction">Direction</button>
+          <button class="topic-chip" type="button" data-topic="Forgiveness">Forgiveness</button>
+          <button class="topic-chip" type="button" data-topic="Strength">Strength</button>
+          <button class="topic-chip" type="button" data-topic="Gratitude">Gratitude</button>
+        </div>
+
+        <label class="sr-only" for="prayerInput">What is on your heart?</label>
+        <textarea id="prayerInput" maxlength="2000" placeholder="Tell God what is weighing on you, what you are hoping for, or simply how you feel…"></textarea>
+        <div class="input-meta">
+          <span>Private by default</span>
+          <span id="charCount">0 / 2000</span>
+        </div>
+
+        <button class="primary-button" id="prayButton" type="button">
+          <span>Pray with me</span>
+          <span aria-hidden="true">→</span>
+        </button>
+
+        <button class="quiet-button" id="justPrayButton" type="button">I don't know what to say — just pray for me</button>
+      </div>
+
+      <blockquote class="verse-quote">
+        <p>“He leadeth me beside the still waters. He restoreth my soul.”</p>
+        <cite>Psalm 23:2–3</cite>
+      </blockquote>
+
+      <div class="trust-row">
+        <span>♡ No account required</span>
+        <span>⌂ Saved prayers stay on this device</span>
+      </div>
+    </section>
+
+    <section id="loadingView" class="view loading-view" hidden aria-live="polite">
+      <div class="loading-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="eyebrow">Be still for a moment</p>
+      <h2>Preparing your prayer…</h2>
+      <p>You do not have to carry every thought at once.</p>
+    </section>
+
+    <section id="prayerView" class="view prayer-view" hidden>
+      <button class="back-button" id="backButton" type="button">← Back</button>
+      <div class="result-heading">
+        <p class="eyebrow">A prayer for this moment</p>
+        <h1>Let us pray.</h1>
+      </div>
+
+      <article class="generated-prayer">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <div id="prayerText"></div>
+      </article>
+
+      <aside class="scripture-card" id="scriptureCard">
+        <div>
+          <p class="card-kicker">Something to hold onto</p>
+          <h3 id="scriptureReference"></h3>
+          <p id="scriptureThought"></p>
+        </div>
+        <a id="scriptureLink" class="scripture-link" href="#" target="_blank" rel="noopener">Read the passage ↗</a>
+      </aside>
+
+      <div class="result-actions">
+        <button class="primary-button" id="saveButton" type="button">♡ Save this prayer</button>
+        <button class="secondary-button" id="againButton" type="button">Pray about something else</button>
+      </div>
+
+      <p class="pastoral-note">Still Waters offers prayerful encouragement, not divine revelation or professional counseling. For serious decisions, consider speaking with a trusted pastor, counselor, or other appropriate professional.</p>
+    </section>
+
+    <section id="journalView" class="view journal-view" hidden>
+      <button class="back-button" id="journalBackButton" type="button">← Back</button>
+      <div class="result-heading">
+        <p class="eyebrow">Your private prayer journal</p>
+        <h1>Remember what you carried.</h1>
+        <p>Saved only in this browser on this device.</p>
+      </div>
+      <div id="journalList" class="journal-list"></div>
+      <div id="emptyJournal" class="empty-state">
+        <span aria-hidden="true">♡</span>
+        <h2>No saved prayers yet.</h2>
+        <p>When a prayer speaks to you, save it here to return to later.</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer>
+    <span>Still Waters</span>
+    <span>Prayer when you don't have the words.</span>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
