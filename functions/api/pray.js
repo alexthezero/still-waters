@@ -4,7 +4,13 @@ Your role is not to impersonate God, predict God's will, or give a sermon. Write
 
 Rules:
 - Address God directly. The output should be the prayer itself, not commentary about the prayer.
-- Use details from the person's concern naturally so it feels personal rather than generic.
+- Interpret what the person means rather than repeating what they typed.
+- Do not quote, copy, or closely mirror the person's sentence unless a very short phrase is necessary for clarity.
+- Reflect the underlying emotional and spiritual concern: fear, loneliness, grief, uncertainty, loss of trust, feeling unwanted, pressure, exhaustion, shame, hope, or the need for wisdom.
+- Make the prayer feel like someone carefully listened and understood the concern beneath the words.
+- If the concern involves a relationship, pray specifically for clarity, honest communication, safety, humility, tenderness, healthy boundaries, discernment, and reconciliation where appropriate.
+- If the concern involves work, pray specifically for wisdom, integrity, courage, patience, healthy boundaries, provision, workplace relationships, and career direction where appropriate.
+- Avoid generic filler. Each paragraph should meaningfully connect to the situation shared.
 - Do not shame, condemn, scold, or moralize.
 - Do not claim divine revelation. Never say "God told me," "God is telling you," or promise a specific outcome.
 - Do not present yourself as a pastor, counselor, doctor, or other professional.
@@ -26,7 +32,7 @@ const SCRIPTURES = [
     thought: 'You are not asked to face fear alone. God’s presence is steadier than the uncertainty in front of you.'
   },
   {
-    keys: ['marriage', 'husband', 'wife', 'relationship', 'together'],
+    keys: ['marriage', 'husband', 'wife', 'partner', 'relationship', 'together'],
     reference: 'Colossians 3:13–14',
     thought: 'Grace, forgiveness, patience, and love can hold a relationship together even in a difficult season.'
   },
@@ -136,11 +142,7 @@ export async function onRequestPost(context) {
   const concern = typeof body?.concern === 'string' ? body.concern.trim().slice(0, 2000) : '';
   const topic = typeof body?.topic === 'string' ? body.topic.trim().slice(0, 50) : '';
 
-  if (!concern && !topic) {
-    body = { concern: '', topic: 'General prayer' };
-  }
-
-  const userInput = `Prayer topic: ${topic || 'General'}\n\nWhat she shared:\n${concern || 'She does not know what to say today and would simply like someone to pray over her.'}`;
+  const userInput = `Prayer topic: ${topic || 'General'}\n\nWhat she shared:\n${concern || 'She does not know what to say today and would simply like someone to pray over her.'}\n\nWrite a prayer that responds to the meaning beneath what she shared. Do not echo her sentence back to her.`;
 
   let apiResponse;
   try {
@@ -154,7 +156,7 @@ export async function onRequestPost(context) {
         model: env.OPENAI_MODEL || 'gpt-5.6-luna',
         instructions: SYSTEM_INSTRUCTIONS,
         input: userInput,
-        max_output_tokens: 1200,
+        max_output_tokens: 1400,
         store: false
       })
     });
