@@ -1,343 +1,196 @@
 :root {
+  color-scheme: light;
   --cream: #f6f1e7;
-  --cream-deep: #ece4d6;
-  --paper: rgba(255,255,255,.72);
-  --paper-solid: #fffdf8;
-  --sage: #6f7d68;
-  --sage-dark: #405043;
-  --sage-soft: #dfe6d9;
-  --olive: #879079;
-  --gold: #b59a66;
-  --ink: #28312b;
-  --muted: #6f756f;
-  --line: rgba(64,80,67,.14);
-  --shadow: 0 24px 70px rgba(72, 66, 51, .12);
-  --radius-lg: 28px;
-  --radius-md: 18px;
+  --paper: #fffcf6;
+  --forest: #354b3e;
+  --forest-deep: #263a2e;
+  --sage-soft: #e8ecdf;
+  --ink: #29382f;
+  --muted: #62695f;
+  --gold: #80693e;
+  --line: #d7d9cb;
+  --radius: 18px;
 }
-
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: 20px; }
 body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  background:
-    radial-gradient(circle at 10% 5%, rgba(181,154,102,.12), transparent 30%),
-    radial-gradient(circle at 92% 20%, rgba(111,125,104,.11), transparent 32%),
-    var(--cream);
+  background: radial-gradient(ellipse at 95% 0, #e5e8db 0, transparent 40%), var(--cream);
   font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 1rem;
   -webkit-font-smoothing: antialiased;
 }
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: .42;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+button, textarea, select, a { font: inherit; }
+button, a, summary { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; color: inherit; }
+a { color: var(--forest); }
+button:focus-visible, a:focus-visible, summary:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
 }
-
-button, textarea, a { font: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; }
-button { color: inherit; }
-button:focus-visible, textarea:focus-visible, a:focus-visible {
-  outline: 3px solid rgba(181,154,102,.35);
-  outline-offset: 3px;
-}
-
-.ambient {
-  position: fixed;
-  border-radius: 999px;
-  filter: blur(12px);
-  pointer-events: none;
-  z-index: -1;
-}
-.ambient-one { width: 250px; height: 250px; left: -140px; top: 28%; background: rgba(111,125,104,.07); }
-.ambient-two { width: 280px; height: 280px; right: -170px; bottom: 8%; background: rgba(181,154,102,.08); }
-
-.site-header {
-  width: min(1080px, calc(100% - 32px));
-  margin: 0 auto;
-  min-height: 84px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: var(--sage-dark);
-  font-family: "Libre Baskerville", Georgia, serif;
-  font-weight: 700;
-  letter-spacing: -.02em;
-}
-.brand-mark {
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  color: var(--sage);
-}
-.brand-mark svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-
-.ghost-button, .back-button, .quiet-button, .topic-chip {
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-}
-.ghost-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
-  border-radius: 999px;
-  color: var(--sage-dark);
-  font-weight: 600;
-}
-.ghost-button:hover { background: rgba(255,255,255,.45); }
-.count-badge {
-  min-width: 22px;
-  height: 22px;
-  display: inline-grid;
-  place-items: center;
-  border-radius: 999px;
-  font-size: 12px;
-  background: var(--sage-soft);
-}
-
-main { width: min(820px, calc(100% - 32px)); margin: 0 auto; }
-.view { animation: enter .42s ease both; }
-[hidden] { display: none !important; }
-@keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-
-.home-view { padding: 56px 0 34px; }
-.hero-copy { max-width: 710px; margin: 0 auto 34px; text-align: center; }
-.eyebrow {
-  margin: 0 0 12px;
-  text-transform: uppercase;
-  letter-spacing: .16em;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--sage);
-}
+h1:focus { outline: none; }
 h1, h2, h3, p { margin-top: 0; }
-h1, h2, h3 { font-family: "Libre Baskerville", Georgia, serif; color: var(--sage-dark); }
-.hero-copy h1, .result-heading h1 {
-  margin-bottom: 14px;
-  font-size: clamp(42px, 8vw, 72px);
-  line-height: .98;
-  letter-spacing: -.055em;
-  font-weight: 400;
-}
-.hero-subtitle {
-  max-width: 620px;
+h1, h2, h3 { font-family: "Libre Baskerville", Georgia, serif; font-weight: 400; }
+h1, h2, h3, button, p { overflow-wrap: break-word; }
+.skip-link { position: fixed; top: -100px; left: 16px; z-index: 20; background: var(--paper); padding: 14px; border: 2px solid var(--forest); }
+.skip-link:focus { top: 12px; }
+.site-header {
+  width: min(1000px, calc(100% - 40px));
   margin: 0 auto;
-  color: var(--muted);
-  font-size: 18px;
-  line-height: 1.65;
-}
-
-.prayer-card {
-  position: relative;
-  overflow: hidden;
-  padding: clamp(24px, 5vw, 40px);
-  border: 1px solid rgba(255,255,255,.9);
-  border-radius: var(--radius-lg);
-  background: var(--paper);
-  backdrop-filter: blur(18px);
-  box-shadow: var(--shadow);
-}
-.prayer-card::after {
-  content: "";
-  position: absolute;
-  width: 180px;
-  height: 180px;
-  right: -80px;
-  top: -90px;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(111,125,104,.12), transparent 68%);
-  pointer-events: none;
-}
-.card-heading { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
-.soft-icon { width: 34px; height: 34px; display: grid; place-items: center; flex: 0 0 34px; border-radius: 50%; background: var(--sage-soft); color: var(--sage-dark); }
-.card-heading h2 { margin: 0; font-size: clamp(22px, 4vw, 29px); font-weight: 400; line-height: 1.3; }
-.card-kicker { margin-bottom: 4px; color: var(--gold); text-transform: uppercase; letter-spacing: .13em; font-weight: 700; font-size: 11px; }
-
-.topics { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-.topic-chip {
-  padding: 9px 13px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(255,255,255,.5);
-  color: var(--muted);
-  transition: .2s ease;
-}
-.topic-chip:hover, .topic-chip.active {
-  color: var(--sage-dark);
-  border-color: rgba(64,80,67,.28);
-  background: var(--sage-soft);
-}
-
-textarea {
-  width: 100%;
-  min-height: 190px;
-  resize: vertical;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: rgba(255,255,255,.66);
-  color: var(--ink);
-  padding: 18px;
-  font-size: 16px;
-  line-height: 1.6;
-  transition: border-color .2s ease, box-shadow .2s ease;
-}
-textarea::placeholder { color: #979d96; }
-textarea:focus { border-color: rgba(111,125,104,.45); box-shadow: 0 0 0 4px rgba(111,125,104,.08); outline: none; }
-.input-meta { display: flex; justify-content: space-between; gap: 12px; margin: 9px 4px 20px; font-size: 12px; color: #8b908a; }
-
-.primary-button, .secondary-button {
-  width: 100%;
-  min-height: 54px;
-  border-radius: 16px;
-  border: 1px solid transparent;
-  padding: 14px 18px;
-  cursor: pointer;
-  font-weight: 700;
-  transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
-}
-.primary-button {
+  min-height: 88px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: var(--sage-dark);
-  color: #fffdf8;
-  box-shadow: 0 10px 24px rgba(64,80,67,.18);
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
 }
-.primary-button:hover { transform: translateY(-1px); box-shadow: 0 14px 28px rgba(64,80,67,.22); }
-.primary-button:disabled { opacity: .58; cursor: not-allowed; transform: none; }
-.secondary-button { background: transparent; border-color: var(--line); color: var(--sage-dark); }
-.secondary-button:hover { background: rgba(255,255,255,.45); }
-.quiet-button { width: 100%; margin-top: 14px; padding: 10px; color: var(--sage); text-decoration: underline; text-decoration-color: rgba(111,125,104,.3); text-underline-offset: 4px; }
-
-.verse-quote { margin: 42px auto 18px; max-width: 650px; padding: 0; border: 0; text-align: center; color: var(--sage-dark); }
-.verse-quote p { margin-bottom: 8px; font-family: "Libre Baskerville", Georgia, serif; font-style: italic; font-size: 18px; line-height: 1.7; }
-.verse-quote cite { color: var(--gold); font-style: normal; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.trust-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; color: #858b84; font-size: 12px; }
-
-.loading-view { min-height: 66vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-.loading-view h2 { margin-bottom: 10px; font-size: 30px; font-weight: 400; }
-.loading-view > p:last-child { color: var(--muted); }
-.loading-mark { display: flex; gap: 8px; margin-bottom: 24px; }
-.loading-mark span { width: 10px; height: 10px; border-radius: 50%; background: var(--sage); animation: pulse 1.25s ease infinite; }
-.loading-mark span:nth-child(2) { animation-delay: .16s; }
-.loading-mark span:nth-child(3) { animation-delay: .32s; }
-@keyframes pulse { 0%,100% { transform: translateY(0); opacity: .35; } 50% { transform: translateY(-8px); opacity: 1; } }
-
-.prayer-view, .journal-view { padding: 28px 0 56px; }
-.back-button { margin-bottom: 36px; padding: 8px 2px; color: var(--sage); font-weight: 600; }
-.result-heading { margin-bottom: 30px; }
-.result-heading h1 { font-size: clamp(42px, 7vw, 64px); }
-.result-heading > p:last-child { color: var(--muted); line-height: 1.6; }
-.generated-prayer {
+.brand { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; color: var(--forest); font-family: "Libre Baskerville", Georgia, serif; font-size: 1.12rem; }
+.brand-mark { width: 34px; height: 34px; flex: 0 0 34px; }
+.brand-mark svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.ghost-button { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 1px solid var(--line); border-radius: 30px; padding: 8px 14px; background: transparent; font-size: .875rem; }
+.ghost-button:hover { background: var(--paper); }
+.count-badge { display: grid; place-items: center; background: var(--sage-soft); border-radius: 50%; min-width: 23px; min-height: 23px; font-size: .75rem; }
+main { width: min(940px, calc(100% - 40px)); margin: 0 auto; }
+.home-view { padding: 38px 0 28px; }
+.hero-copy { margin-bottom: 34px; padding-left: 22px; border-left: 2px solid var(--gold); }
+.eyebrow { color: var(--gold); font-size: .875rem; line-height: 1.6; margin-bottom: 12px; }
+h1 { font-size: clamp(2rem, 4.6vw, 3.05rem); line-height: 1.27; letter-spacing: -.035em; margin-bottom: 14px; }
+.hero-subtitle { max-width: 550px; font-size: 1rem; line-height: 1.7; color: var(--muted); margin-bottom: 0; }
+.prayer-card { position: relative; }
+.card-heading { margin-bottom: 20px; }
+.card-heading h2 { margin-bottom: 8px; font-size: 1.4rem; line-height: 1.5; }
+.choice-help { color: var(--muted); font-size: .9375rem; line-height: 1.6; margin-bottom: 0; }
+.topics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.scenario-card {
   position: relative;
-  padding: clamp(28px, 6vw, 48px);
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(255,255,255,.86);
+  min-height: 98px;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   background: var(--paper);
-  box-shadow: var(--shadow);
+  padding: 19px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
 }
-.quote-mark { position: absolute; top: 16px; left: 22px; color: rgba(181,154,102,.28); font-family: Georgia, serif; font-size: 84px; line-height: 1; }
-#prayerText { position: relative; z-index: 1; font-family: "Libre Baskerville", Georgia, serif; font-size: clamp(17px, 3vw, 20px); line-height: 1.9; color: #354037; }
-#prayerText p { margin-bottom: 1.25em; }
+.scenario-label { display: block; font-size: 1rem; font-weight: 600; line-height: 1.4; }
+.scenario-detail { display: block; font-size: .875rem; line-height: 1.5; color: var(--muted); }
+.scenario-card:hover { background: var(--sage-soft); border-color: #8b987c; transform: translateY(-2px); }
+.scenario-card:active { transform: translateY(0); }
+.just-pray-button {
+  width: 100%;
+  min-height: 68px;
+  padding: 18px 24px;
+  margin-top: 16px;
+  border: 1px solid var(--forest);
+  border-radius: var(--radius);
+  background: var(--forest);
+  color: var(--paper);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.just-pray-button span { font-family: "Libre Baskerville", Georgia, serif; font-style: italic; margin-right: 5px; }
+.just-pray-button:hover { background: var(--forest-deep); }
+.personal-prayer { margin-top: 20px; border-bottom: 1px solid var(--line); padding-bottom: 18px; }
+.personal-prayer summary { cursor: pointer; padding: 12px 0; font-size: .9375rem; color: var(--forest); min-height: 44px; }
+.personal-prayer p { font-size: .875rem; line-height: 1.65; color: var(--muted); margin: 8px 0 18px; }
+.personal-prayer label { display: block; margin: 14px 0 8px; font-size: .9375rem; }
+textarea, select { width: 100%; padding: 14px; background: var(--paper); color: var(--ink); border: 1px solid #aeb7a4; border-radius: 12px; font-size: 1rem; line-height: 1.65; }
+textarea { min-height: 145px; resize: vertical; }
+textarea::placeholder { color: var(--muted); }
+select { min-height: 50px; margin-bottom: 18px; }
+.input-meta { text-align: right; color: var(--muted); font-size: .875rem; margin: 5px 0; }
+.verse-quote { text-align: center; margin: 32px auto 24px; max-width: 600px; }
+.verse-quote p { font-family: "Libre Baskerville", Georgia, serif; font-style: italic; color: var(--forest); font-size: 1rem; line-height: 1.9; margin-bottom: 10px; }
+.verse-quote cite { font-style: normal; font-size: .875rem; color: var(--gold); }
+.trust-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; color: var(--muted); font-size: .875rem; line-height: 1.6; }
+.prayer-view, .journal-view { max-width: 760px; margin: 0 auto; padding: 24px 0 40px; }
+.back-button, .quiet-button { background: transparent; border: 0; min-height: 44px; padding: 10px 0; color: var(--forest); font-size: .9375rem; }
+.back-button { margin-bottom: 22px; }
+.back-button:hover, .quiet-button:hover { text-decoration: underline; text-underline-offset: 5px; }
+.result-heading { margin-bottom: 26px; }
+.result-heading h1 { font-size: clamp(1.875rem, 5vw, 2.8rem); }
+.result-heading > p:last-child { color: var(--muted); font-size: .9375rem; line-height: 1.7; margin-bottom: 0; }
+.generated-prayer { position: relative; background: var(--paper); border: 1px solid var(--line); border-top: 3px solid var(--gold); border-radius: 6px 6px 20px 20px; padding: clamp(24px, 5vw, 46px); box-shadow: 0 16px 45px #354b3e09; }
+.prayer-overline { display: flex; justify-content: space-between; gap: 14px; padding-bottom: 22px; margin-bottom: 24px; border-bottom: 1px solid var(--line); color: var(--gold); font-size: .875rem; line-height: 1.5; }
+#prayerText { font-family: "Libre Baskerville", Georgia, serif; font-size: 1.125rem; line-height: 1.95; color: var(--ink); }
+#prayerText p { margin-bottom: 1.3em; }
 #prayerText p:last-child { margin-bottom: 0; }
-
-.scripture-card {
-  margin-top: 20px;
-  padding: 24px;
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 18px;
-  border: 1px solid rgba(64,80,67,.12);
-  background: rgba(223,230,217,.48);
-}
-.scripture-card h3 { margin-bottom: 8px; font-size: 23px; font-weight: 400; }
-.scripture-card p { margin: 0; color: var(--muted); line-height: 1.55; }
-.scripture-link { flex: 0 0 auto; color: var(--sage-dark); font-weight: 700; text-decoration: none; font-size: 13px; }
+.closing-thought { border-top: 1px solid var(--line); margin: 28px 0 0; padding-top: 24px; color: var(--forest); font-size: 1rem; font-style: italic; line-height: 1.7; }
+.scripture-card { margin-top: 18px; padding: 25px; background: var(--sage-soft); border: 1px solid #cfd6c1; border-radius: var(--radius); display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; justify-content: space-between; }
+.scripture-card > div { flex: 1 1 300px; min-width: 0; }
+.card-kicker { color: var(--gold); font-size: .875rem; margin-bottom: 9px; line-height: 1.5; }
+.scripture-card h3 { margin-bottom: 12px; font-size: 1.25rem; line-height: 1.5; }
+.scripture-card p:last-child { font-size: .9375rem; line-height: 1.75; margin-bottom: 0; }
+.scripture-link { display: inline-flex; align-items: center; min-height: 44px; font-size: .875rem; text-decoration-thickness: 1px; text-underline-offset: 5px; }
 .result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-.pastoral-note { max-width: 680px; margin: 24px auto 0; text-align: center; color: #8a8f89; font-size: 12px; line-height: 1.6; }
-
-.journal-list { display: grid; gap: 14px; }
-.journal-entry {
-  padding: 22px;
-  border-radius: var(--radius-md);
-  background: rgba(255,255,255,.58);
-  border: 1px solid rgba(255,255,255,.75);
-}
-.journal-entry-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
-.journal-entry h3 { margin: 0; font-size: 19px; font-weight: 400; }
-.journal-date { color: #90958f; font-size: 12px; }
-.journal-preview { margin-bottom: 14px; color: var(--muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.journal-actions { display: flex; gap: 10px; }
-.journal-actions button { border: 0; background: transparent; padding: 4px 0; cursor: pointer; color: var(--sage); font-weight: 700; font-size: 13px; }
-.journal-actions .delete { color: #9a6b62; }
-.empty-state { padding: 60px 20px; text-align: center; color: var(--muted); }
-.empty-state > span { display: block; font-size: 34px; margin-bottom: 10px; color: var(--gold); }
-.empty-state h2 { margin-bottom: 8px; font-size: 24px; font-weight: 400; }
-
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: calc(24px + env(safe-area-inset-bottom));
-  transform: translate(-50%, 20px);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 10;
-  padding: 11px 16px;
-  border-radius: 999px;
-  background: rgba(40,49,43,.94);
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(0,0,0,.16);
-  font-size: 13px;
-  transition: .22s ease;
-}
+.primary-button, .secondary-button { width: 100%; min-height: 54px; border-radius: 14px; border: 1px solid var(--forest); padding: 14px 20px; font-size: .9375rem; line-height: 1.5; font-weight: 600; }
+.primary-button { background: var(--forest); color: var(--paper); }
+.primary-button:hover { background: var(--forest-deep); }
+.secondary-button { background: transparent; color: var(--forest); border-color: #aeb7a4; }
+.secondary-button:hover { background: var(--paper); }
+button:disabled { opacity: .65; cursor: default; transform: none; }
+.quiet-button { display: block; width: 100%; margin: 14px 0 8px; text-align: center; }
+.pastoral-note { text-align: center; color: var(--muted); font-size: .875rem; line-height: 1.7; margin: 15px auto 0; }
+.journal-list { display: grid; gap: 18px; }
+.journal-entry { background: var(--paper); padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); }
+.journal-entry-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
+.journal-entry h2 { font-size: 1.2rem; line-height: 1.6; margin: 0; }
+.journal-date { font-size: .875rem; color: var(--muted); }
+.journal-preview { font-size: 1rem; line-height: 1.75; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.journal-actions { display: flex; gap: 20px; }
+.journal-actions button { min-height: 44px; background: transparent; border: 0; padding: 8px 0; font-size: .9375rem; color: var(--forest); text-decoration: underline; text-underline-offset: 5px; }
+.journal-actions .delete { color: #865747; margin-left: auto; }
+.empty-state { padding: 45px 10px; text-align: center; }
+.empty-state > span { color: var(--gold); font-size: 2rem; }
+.empty-state h2 { margin: 16px 0; font-size: 1.5rem; line-height: 1.5; }
+.empty-state p { color: var(--muted); line-height: 1.7; }
+.loading-view { min-height: 60vh; padding: 50px 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.loading-view h2 { line-height: 1.5; }
+.loading-view > p:last-of-type { color: var(--muted); line-height: 1.7; }
+.loading-view button { max-width: 300px; margin-top: 20px; }
+.loading-mark { display: flex; gap: 8px; margin-bottom: 24px; }
+.loading-mark span { width: 8px; height: 8px; border-radius: 50%; background: var(--forest); animation: pulse 1.2s infinite alternate; }
+.loading-mark span:nth-child(2) { animation-delay: .2s; }
+.loading-mark span:nth-child(3) { animation-delay: .4s; }
+@keyframes pulse { from { opacity: .3; } to { opacity: 1; } }
+.toast { position: fixed; z-index: 10; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); width: max-content; max-width: calc(100% - 32px); transform: translate(-50%, 12px); opacity: 0; pointer-events: none; padding: 14px 20px; background: var(--forest-deep); color: var(--paper); border-radius: 16px; font-size: .875rem; line-height: 1.65; box-shadow: 0 10px 30px #263a2e20; transition: opacity .2s, transform .2s; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
-
-footer {
-  width: min(1080px, calc(100% - 32px));
-  margin: 0 auto;
-  padding: 26px 0 calc(28px + env(safe-area-inset-bottom));
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  border-top: 1px solid var(--line);
-  color: #8a8f89;
-  font-size: 12px;
-}
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
-@media (max-width: 640px) {
-  .site-header { min-height: 72px; }
-  .home-view { padding-top: 34px; }
-  .hero-copy { margin-bottom: 24px; }
-  .hero-subtitle { font-size: 16px; }
-  .prayer-card { border-radius: 24px; }
-  .topics { gap: 7px; }
-  .topic-chip { font-size: 13px; padding: 8px 11px; }
-  textarea { min-height: 175px; }
-  .scripture-card { align-items: flex-start; flex-direction: column; }
+.support-note { border: 2px solid var(--gold); padding: 20px; border-radius: 12px; margin: 20px auto; background: var(--paper); line-height: 1.6; }
+.support-note p { margin: 8px 0 0; }
+footer { width: min(1000px, calc(100% - 40px)); margin: 0 auto; border-top: 1px solid var(--line); padding: 25px 0 calc(28px + env(safe-area-inset-bottom)); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 20px; font-size: .875rem; line-height: 1.6; color: var(--muted); }
+@media (max-width: 600px) {
+  .site-header { min-height: 74px; }
+  .brand { font-size: 1rem; gap: 5px; }
+  .brand-mark { width: 29px; height: 29px; flex-basis: 29px; }
+  .ghost-button { padding: 8px 10px; }
+  .home-view { padding-top: 28px; }
+  .hero-copy { padding-left: 16px; margin-bottom: 27px; }
+  h1 { font-size: 2rem; }
+  .topics { gap: 10px; }
+  .scenario-card { padding: 17px 15px; min-height: 135px; justify-content: flex-start; gap: 9px; }
+  .scenario-label { line-height: 1.5; }
+  .scenario-detail { line-height: 1.55; }
+  .just-pray-button span { display: block; }
+  .generated-prayer { padding: 25px 22px; }
+  #prayerText { font-size: 1.0625rem; line-height: 1.95; }
+  .prayer-overline { padding-bottom: 18px; margin-bottom: 22px; }
+  .scripture-card { padding: 23px; gap: 9px; }
   .result-actions { grid-template-columns: 1fr; }
-  footer { flex-direction: column; align-items: center; text-align: center; }
+  .result-heading { margin-bottom: 22px; }
+  .back-button { margin-bottom: 18px; }
 }
-
+@media (max-width: 359px) {
+  .topics { grid-template-columns: 1fr; }
+  .scenario-card { min-height: 100px; }
+  .site-header { flex-wrap: wrap; padding: 12px 0; }
+  h1 { font-size: 1.8rem; }
+}
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }

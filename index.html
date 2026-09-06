@@ -4,21 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f6f1e7" />
-  <meta name="description" content="Still Waters — a quiet place for prayer when you do not have the words." />
-  <title>Still Waters</title>
+  <meta name="description" content="A quiet place to pray. Choose what is on your heart and receive a thoughtful Christian prayer for this moment." />
+  <title>Still Waters · A prayer for this moment</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=3" />
 </head>
 <body>
-  <div class="ambient ambient-one"></div>
-  <div class="ambient ambient-two"></div>
+  <a class="skip-link" href="#homeHeading">Skip to prayer choices</a>
 
   <header class="site-header">
-    <a class="brand" href="#" aria-label="Still Waters home">
+    <a class="brand" id="homeLink" href="#home" aria-label="Still Waters home">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 44 44"><path d="M8 24c5-7 10-7 15 0 5-7 10-7 15 0"/><path d="M11 31c4-5 8-5 12 0 4-5 8-5 12 0"/><path d="M22 7c4 5 6 9 6 12a6 6 0 1 1-12 0c0-3 2-7 6-12Z"/></svg>
       </span>
@@ -28,57 +27,61 @@
   </header>
 
   <main>
+    <aside class="support-note" id="supportNote" role="alert" hidden><strong>You deserve support right now.</strong><p>If you may act on thoughts of harming yourself, call emergency services or reach out to someone who can stay with you. In the U.S., call or text <a href="tel:988">988</a>. You can still take a moment to pray below.</p></aside>
     <section id="homeView" class="view home-view">
       <div class="hero-copy">
-        <p class="eyebrow">A quiet place to meet with God</p>
-        <h1>Come as you are.</h1>
-        <p class="hero-subtitle">You do not need the right words. Bring what is on your heart, and we will turn it into prayer.</p>
+        <p class="eyebrow">A little space for you &amp; God</p>
+        <h1 id="homeHeading" tabindex="-1">You can set it down here.</h1>
+        <p class="hero-subtitle">Whatever today holds, you don't have to find the perfect words.</p>
       </div>
 
       <div class="prayer-card">
         <div class="card-heading">
-          <span class="soft-icon" aria-hidden="true">✦</span>
           <div>
-            <p class="card-kicker">Right now</p>
-            <h2>What would you like prayer for?</h2>
+            <h2>What is on your heart?</h2>
+            <p class="choice-help">Choose a situation. A prayer is waiting for you.</p>
           </div>
         </div>
 
-        <div class="topics" id="topics" aria-label="Prayer topics">
-          <button class="topic-chip" type="button" data-topic="Marriage">Marriage</button>
-          <button class="topic-chip" type="button" data-topic="Family">Family</button>
-          <button class="topic-chip" type="button" data-topic="Fear">Fear</button>
-          <button class="topic-chip" type="button" data-topic="Finances">Finances</button>
-          <button class="topic-chip" type="button" data-topic="Work">Work</button>
-          <button class="topic-chip" type="button" data-topic="Direction">Direction</button>
-          <button class="topic-chip" type="button" data-topic="Forgiveness">Forgiveness</button>
-          <button class="topic-chip" type="button" data-topic="Strength">Strength</button>
-          <button class="topic-chip" type="button" data-topic="Gratitude">Gratitude</button>
+        <div class="topics" id="topics" aria-label="Prayer situations">
+          <button class="scenario-card" type="button" data-topic="Strength"><span class="scenario-label">I'm overwhelmed</span><span class="scenario-detail">When everything needs you at once</span></button>
+          <button class="scenario-card" type="button" data-topic="Fear"><span class="scenario-label">My mind won't settle</span><span class="scenario-detail">For worry, fear &amp; anxious thoughts</span></button>
+          <button class="scenario-card" type="button" data-topic="Marriage"><span class="scenario-label">My relationship feels strained</span><span class="scenario-detail">For connection, honesty &amp; understanding</span></button>
+          <button class="scenario-card" type="button" data-topic="Motherhood"><span class="scenario-label">Motherhood feels heavy</span><span class="scenario-detail">When you're giving so much of yourself</span></button>
+          <button class="scenario-card" type="button" data-topic="Work"><span class="scenario-label">Work is weighing on me</span><span class="scenario-detail">For pressure, people &amp; purpose</span></button>
+          <button class="scenario-card" type="button" data-topic="Direction"><span class="scenario-label">I don't know what to do</span><span class="scenario-detail">For decisions &amp; an uncertain next step</span></button>
+          <button class="scenario-card" type="button" data-topic="Family"><span class="scenario-label">I'm carrying family worries</span><span class="scenario-detail">For the people you love so deeply</span></button>
+          <button class="scenario-card" type="button" data-topic="Finances"><span class="scenario-label">Money feels uncertain</span><span class="scenario-detail">For provision &amp; practical wisdom</span></button>
+          <button class="scenario-card" type="button" data-topic="Forgiveness"><span class="scenario-label">I'm hurt or holding on</span><span class="scenario-detail">For healing, forgiveness &amp; boundaries</span></button>
+          <button class="scenario-card" type="button" data-topic="Grief"><span class="scenario-label">I'm missing someone</span><span class="scenario-detail">For loss &amp; the ache of absence</span></button>
+          <button class="scenario-card" type="button" data-topic="Faith"><span class="scenario-label">I feel far from God</span><span class="scenario-detail">When faith feels quiet or uncertain</span></button>
+          <button class="scenario-card" type="button" data-topic="Loneliness"><span class="scenario-label">I feel unseen or alone</span><span class="scenario-detail">For belonging &amp; remembering your worth</span></button>
+          <button class="scenario-card" type="button" data-topic="Rest"><span class="scenario-label">I need rest tonight</span><span class="scenario-detail">A place to leave the unfinished day</span></button>
+          <button class="scenario-card" type="button" data-topic="Gratitude"><span class="scenario-label">I want to give thanks</span><span class="scenario-detail">For ordinary joys &amp; answered prayers</span></button>
         </div>
 
-        <label class="sr-only" for="prayerInput">What is on your heart?</label>
-        <textarea id="prayerInput" maxlength="2000" placeholder="Tell God what is weighing on you, what you are hoping for, or simply how you feel…"></textarea>
-        <div class="input-meta">
-          <span>Private by default</span>
-          <span id="charCount">0 / 2000</span>
-        </div>
-
-        <button class="primary-button" id="prayButton" type="button">
-          <span>Pray with me</span>
-          <span aria-hidden="true">→</span>
-        </button>
-
-        <button class="quiet-button" id="justPrayButton" type="button">I don't know what to say — just pray for me</button>
+        <button class="just-pray-button" id="justPrayButton" type="button"><span>I don't have the words.</span> Just pray over me.</button>
+        <details class="personal-prayer" id="shareDetails">
+          <summary>I'd like to put it into words</summary>
+          <p id="privacyNote">Your words stay in this page. We'll choose a written prayer for a matching situation.</p>
+          <label for="prayerInput">What's weighing on you?</label>
+          <textarea id="prayerInput" maxlength="2000" placeholder="You can be honest here. Nothing needs to sound polished." aria-describedby="privacyNote charCount"></textarea>
+          <div class="input-meta"><span id="charCount">0 / 2000</span></div>
+          <label for="personalTopic">A situation, if you know it</label>
+          <select id="personalTopic"><option value="">Choose for me</option></select>
+          <button class="primary-button" id="prayButton" type="button">Find a prayer for me</button>
+        </details>
+        <noscript><p>Please enable JavaScript to choose a prayer. Until then, take a quiet moment with Psalm 23.</p></noscript>
       </div>
 
       <blockquote class="verse-quote">
         <p>“He leadeth me beside the still waters. He restoreth my soul.”</p>
-        <cite>Psalm 23:2–3</cite>
+        <cite>Psalm 23:2–3 · KJV</cite>
       </blockquote>
 
       <div class="trust-row">
-        <span>♡ No account required</span>
-        <span>⌂ Saved prayers stay on this device</span>
+        <span>No account needed</span>
+        <span>Saved prayers stay in this browser</span>
       </div>
     </section>
 
@@ -87,23 +90,26 @@
       <p class="eyebrow">Be still for a moment</p>
       <h2>Preparing your prayer…</h2>
       <p>You do not have to carry every thought at once.</p>
+      <button class="secondary-button" id="cancelButton" type="button">Back to prayer choices</button>
     </section>
 
     <section id="prayerView" class="view prayer-view" hidden>
-      <button class="back-button" id="backButton" type="button">← Back</button>
+      <button class="back-button" id="backButton" type="button">← All prayer situations</button>
       <div class="result-heading">
-        <p class="eyebrow">A prayer for this moment</p>
-        <h1>Let us pray.</h1>
+        <p class="eyebrow" id="prayerTopic">A prayer for this moment</p>
+        <h1 id="prayerTitle" tabindex="-1">Let us pray.</h1>
+        <p id="prayerContext">Let these words be prayed over you. Take your time.</p>
       </div>
 
       <article class="generated-prayer">
-        <span class="quote-mark" aria-hidden="true">“</span>
+        <div class="prayer-overline"><span>A moment in prayer</span><span id="prayerNumber"></span></div>
         <div id="prayerText"></div>
+        <p class="closing-thought" id="closingThought"></p>
       </article>
 
       <aside class="scripture-card" id="scriptureCard">
         <div>
-          <p class="card-kicker">Something to hold onto</p>
+          <p class="card-kicker">A Scripture to sit with</p>
           <h3 id="scriptureReference"></h3>
           <p id="scriptureThought"></p>
         </div>
@@ -111,19 +117,19 @@
       </aside>
 
       <div class="result-actions">
-        <button class="primary-button" id="saveButton" type="button">♡ Save this prayer</button>
-        <button class="secondary-button" id="againButton" type="button">Pray about something else</button>
+        <button class="primary-button" id="anotherButton" type="button">Read another prayer</button>
+        <button class="secondary-button" id="saveButton" type="button">♡ Save this prayer</button>
       </div>
-
-      <p class="pastoral-note">Still Waters offers prayerful encouragement, not divine revelation or professional counseling. For serious decisions, consider speaking with a trusted pastor, counselor, or other appropriate professional.</p>
+      <button class="quiet-button" id="againButton" type="button">Pray about something else</button>
+      <p class="pastoral-note" id="sourceNote">An original written prayer for encouragement and reflection.</p>
     </section>
 
     <section id="journalView" class="view journal-view" hidden>
       <button class="back-button" id="journalBackButton" type="button">← Back</button>
       <div class="result-heading">
-        <p class="eyebrow">Your private prayer journal</p>
-        <h1>Remember what you carried.</h1>
-        <p>Saved only in this browser on this device.</p>
+        <p class="eyebrow">Your prayer journal</p>
+        <h1 id="journalHeading" tabindex="-1">Words to return to.</h1>
+        <p>Saved in this browser, on this device. Clearing browser data removes these prayers.</p>
       </div>
       <div id="journalList" class="journal-list"></div>
       <div id="emptyJournal" class="empty-state">
@@ -141,6 +147,7 @@
     <span>Prayer when you don't have the words.</span>
   </footer>
 
-  <script src="app.js" defer></script>
+  <script src="prayers.js?v=3" defer></script>
+  <script src="app.js?v=3" defer></script>
 </body>
 </html>

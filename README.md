@@ -1,93 +1,68 @@
 # Still Waters
 
-**Prayer when you don't have the words.**
+A gentle Christian prayer companion, built for GitHub Pages.
 
-Still Waters is a calm, mobile-first Christian prayer companion. A person can share what is on their heart, choose a prayer topic, or simply ask to be prayed over. The app then returns a personal prayer and a curated Scripture reference. Saved prayers stay in the browser on that device.
+**Live site:** https://alexthezero.github.io/still-waters/
 
-## What is included
+## How it works
 
-- Mobile-first, responsive interface
-- Prayer topics for marriage, family, fear, finances, direction, forgiveness, strength, and gratitude
-- “I don't know what to say — just pray for me” flow
-- Server-side OpenAI prayer generation
-- Built-in prayer fallback if the AI endpoint is not configured or unavailable
-- Curated Scripture matching so the model does not invent Bible quotations
-- Local-only prayer journal using `localStorage`
-- Installable web app manifest
-- Security and privacy headers for Cloudflare Pages
-- Guardrails against claiming divine revelation or guaranteeing outcomes
+Choose a situation to immediately open one of three complete, individually written prayers. “Read another prayer” stays with that situation and visits every prayer in its set before repeating. A fresh visit starts a new shuffled order.
 
-## Recommended hosting
+There are **45 original prayers**: three for each of 14 situations, plus three general prayers for “Just pray over me.”
 
-The static site can be previewed anywhere, including GitHub Pages. However, the AI prayer endpoint must run server-side so the OpenAI API key is never exposed in browser JavaScript.
+| Situation | Focus |
+| --- | --- |
+| I'm overwhelmed | Strength, limits, and accepting help |
+| My mind won't settle | Worry, fear, and uncertainty |
+| My relationship feels strained | Communication, mutual care, and boundaries |
+| Motherhood feels heavy | Parenting, identity, and receiving care |
+| Work is weighing on me | Pressure, workplace relationships, and career direction |
+| I don't know what to do | Decisions and waiting |
+| I'm carrying family worries | Caring without controlling every outcome |
+| Money feels uncertain | Provision and practical wisdom |
+| I'm hurt or holding on | Healing, forgiveness, and accountability |
+| I'm missing someone | Grief and loss |
+| I feel far from God | Honest questions and returning to prayer |
+| I feel unseen or alone | Belonging and personal worth |
+| I need rest tonight | Releasing the day and receiving rest |
+| I want to give thanks | Gratitude within real life |
 
-The repository is structured for **Cloudflare Pages**:
+Each prayer includes a title, a brief encouragement, and a related Scripture reference. Reflections are original devotional thoughts, not Bible quotations. The Psalm 23 excerpt on the home screen is identified as KJV.
 
-- Static site files live at the repository root.
-- The Pages Function lives at `functions/api/pray.js` and becomes `/api/pray` after deployment.
-- No JavaScript framework or build process is required.
+## GitHub Pages
 
-Connect this repository to a Cloudflare Pages project and configure the project to publish the repository root as a static site.
+The live experience is plain HTML, CSS, and JavaScript at the repository root. It requires no build, API key, account, or paid prayer service. The existing GitHub Pages publication follows the main branch.
 
-## Environment variables
+- `index.html`: accessible situation choices, prayer reading, and saved journal.
+- `styles.css`: responsive cream and forest-green design.
+- `prayers.js`: complete prayer catalog and in-memory shuffle rotation.
+- `app.js`: navigation, optional text matching, and device-local journal.
+- `icon.svg` and `manifest.webmanifest`: existing web app identity.
+- `functions/api/pray.js`: retained optional Cloudflare Pages prayer endpoint.
+- `_headers`: retained Cloudflare Pages headers; GitHub Pages does not apply this file.
 
-Add these in the hosting provider's server-side environment settings:
+## Privacy and saved prayers
 
-### Required
+Choosing a situation does not send a prayer request, store a situation history, or require an account. Rotation state lasts only in the open page.
 
-`OPENAI_API_KEY`
+The optional “I'd like to put it into words” section uses local keyword matching on the GitHub Pages host. It selects a written prayer; it does not generate a custom interpretation or echo the person's text. The person can explicitly choose the situation if the suggested match is not suitable. Raw text is not copied into new journal entries.
 
-Your OpenAI API key. Never commit this value to GitHub.
+A prayer is saved only when “Save this prayer” is selected. The journal uses the existing `still-waters-prayer-journal-v1` browser-storage key so earlier entries remain available at the same site origin. It is not encrypted, password protected, or synced between devices. Anyone using the same browser profile can open it. Clearing browser data removes it.
 
-### Optional
+Saving the same catalog prayer twice is prevented. If storage is blocked or full, the app reports that the change could not be saved. A full journal does not silently discard earlier prayers.
 
-`OPENAI_MODEL`
+No analytics, advertising, camera, microphone, location, or payment features are included. The existing Google Fonts stylesheets make font requests; Scripture links open Bible Gateway only when selected.
 
-If omitted, Still Waters uses:
+## Optional server-generated prayers
 
-`gpt-5.6-luna`
+The original Cloudflare Pages function is preserved for a deployment that supports it. GitHub Pages does **not** run this function. Scenario choices always use the written catalog.
 
-## Local behavior before the API is configured
+On a non-GitHub host, submitting a free-text concern tries `./api/pray`. An explicitly configured `window.STILL_WATERS_API_URL` can also select an endpoint. The form discloses when words may be sent to that service and OpenAI. Requests time out after 15 seconds and fall back to a clearly identified written prayer.
 
-The app is intentionally usable even before deployment of the server-side function. If `/api/pray` is unavailable, the browser automatically falls back to the built-in prayer generator. This lets you test the interface without exposing or hard-coding an API key.
+Configure `OPENAI_API_KEY` on the server only. Never put it in client code or GitHub. The existing `OPENAI_MODEL` setting is retained. API responses use `store: false`; this is not a promise about provider logging or retention. Server hosting and API usage have their own requirements and costs.
 
-## Privacy model
+Prayers offer encouragement without claiming divine revelation, predicting outcomes, assigning blame, or asking a person to remain in an unsafe relationship. They can accompany support from trusted people and a faith community.
 
-Prayer concerns are not stored by the front end unless the user explicitly saves a generated prayer to the journal.
+## Verification
 
-Saved journal entries are stored in that browser's `localStorage` and are not synced to a database.
-
-When AI generation is enabled, the prayer concern is sent to the server-side function and then to the OpenAI Responses API for generation. The request uses `store: false`.
-
-The app does not include analytics, advertising, accounts, camera access, microphone access, geolocation, payment access, or USB access.
-
-## Pastoral design principles
-
-The prayer engine is instructed to:
-
-- pray rather than lecture;
-- avoid shame and condemnation;
-- never say that God directly revealed something to the model;
-- avoid predicting outcomes or presenting certainty about God's plan;
-- pray for wisdom, discernment, peace, courage, protection, humility, reconciliation, healthy boundaries, and trustworthy support when appropriate;
-- avoid diagnosing medical, mental-health, legal, financial, or relationship conditions;
-- encourage immediate real-world help when someone appears to be in immediate danger.
-
-## Project structure
-
-```text
-still-waters/
-├── index.html
-├── styles.css
-├── app.js
-├── icon.svg
-├── manifest.webmanifest
-├── _headers
-└── functions/
-    └── api/
-        └── pray.js
-```
-
-## Important
-
-Still Waters is intended to support prayer and reflection. It should not be presented as a replacement for a church community, trusted pastor, licensed counselor, emergency services, or other appropriate professional support.
+The update was checked for JavaScript syntax, valid local asset references, unique HTML IDs, and matching script hooks. Catalog checks cover all 45 complete prayers. Rotation checks cover every situation, full cycles, cycle boundaries, and switching between situations. Browser visual testing was not part of this update.
